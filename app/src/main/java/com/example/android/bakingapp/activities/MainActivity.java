@@ -61,8 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
          /* Setting the adapter attaches it to the RecyclerView in our layout. */
         mRecyclerView.setAdapter(mRecipeAdapter);
-
-
+        
         loadData();
     }
 
