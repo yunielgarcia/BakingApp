@@ -1,16 +1,13 @@
 package com.example.android.bakingapp.activities;
 
-import android.content.res.Resources;
-import android.graphics.Rect;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.View;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapters.RecipeCardAdapter;
@@ -24,19 +21,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecipeCardAdapter.ListItemClickListener{
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private ServiceInterface mServiceInterface;
     private List<Recipe> recipes;
     private RecyclerView mRecyclerView;
     private RecipeCardAdapter mRecipeAdapter;
+    private boolean isTablet;
+    private LinearLayoutManager mLyoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        isTablet = getResources().getBoolean(R.bool.isTablet);
 
         mServiceInterface = new ServiceGenerator().createService(ServiceInterface.class);
 
@@ -48,16 +48,21 @@ public class MainActivity extends AppCompatActivity {
          * parameter is useful mostly for HORIZONTAL layouts that should reverse for right to left
          * languages.
          */
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        if (isTablet){
+            mLyoutManager = new GridLayoutManager(this, 3);
+        }else {//is phone
+            mLyoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        }
 
-        mRecyclerView.setLayoutManager(layoutManager);
+
+        mRecyclerView.setLayoutManager(mLyoutManager);
         /*
          * Use this setting to improve performance if you know that changes in content do not
          * change the child layout size in the RecyclerView
          */
         mRecyclerView.setHasFixedSize(true);
 
-        mRecipeAdapter = new RecipeCardAdapter();
+        mRecipeAdapter = new RecipeCardAdapter(this);
 
          /* Setting the adapter attaches it to the RecyclerView in our layout. */
         mRecyclerView.setAdapter(mRecipeAdapter);
@@ -95,4 +100,34 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onListItemClick(Recipe recipeSelected) {
+        Intent startRecipeDetailIntent = new Intent(this, StepActivity.class);
+        startRecipeDetailIntent.putExtra("RecipeSelected", recipeSelected);
+        startActivity(startRecipeDetailIntent);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

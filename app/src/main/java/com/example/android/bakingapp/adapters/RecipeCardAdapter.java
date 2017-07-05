@@ -13,8 +13,6 @@ import com.example.android.bakingapp.model.Recipe;
 
 import java.util.List;
 
-import static android.media.CamcorderProfile.get;
-
 /**
  * Created by Yggarcia on 7/4/2017.
  */
@@ -22,6 +20,23 @@ import static android.media.CamcorderProfile.get;
 public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.RecipeCardAdapterViewHolder>{
 
     private List<Recipe> mRecipes;
+    /*
+     * An on-click handler that we've defined to make it easy for an Activity to interface with
+     * our RecyclerView
+     */
+    final private ListItemClickListener mOnClickListener;
+
+    public RecipeCardAdapter(ListItemClickListener listener) {
+        this.mOnClickListener = listener;
+    }
+
+    /**
+     * The interface that receives onClick messages.
+     */
+    public interface ListItemClickListener {
+        void onListItemClick(Recipe recipeSelected);
+    }
+
 
     @Override
     public RecipeCardAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -58,13 +73,21 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Re
         notifyDataSetChanged();
     }
 
-    public class RecipeCardAdapterViewHolder extends RecyclerView.ViewHolder{
+    public class RecipeCardAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public final TextView mRecipeItem_tv;
 
         public RecipeCardAdapterViewHolder(View itemView) {
             super(itemView);
             this.mRecipeItem_tv = (TextView) itemView.findViewById(R.id.title);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int clickedPosition = getAdapterPosition();
+            Recipe recipeSelected = mRecipes.get(clickedPosition);
+            mOnClickListener.onListItemClick(recipeSelected);
         }
     }
 }
