@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView android:layout_height="wrap_content"
-    android:layout_width="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:text="hello fragment view"/>
+
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/steps_list_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+</ListView>
+
+
+    <!--<TextView xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:id="@+id/steps_list_view"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:text="yuni">-->
+
+    <!--</TextView>-->

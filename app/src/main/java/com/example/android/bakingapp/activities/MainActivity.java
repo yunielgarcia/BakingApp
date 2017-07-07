@@ -12,9 +12,11 @@ import android.util.Log;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapters.RecipeCardAdapter;
 import com.example.android.bakingapp.model.Recipe;
+import com.example.android.bakingapp.model.Step;
 import com.example.android.bakingapp.rest.ServiceGenerator;
 import com.example.android.bakingapp.rest.ServiceInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements RecipeCardAdapter
     @Override
     public void onListItemClick(Recipe recipeSelected) {
         Intent startRecipeDetailIntent = new Intent(this, StepActivity.class);
-        startRecipeDetailIntent.putExtra("RecipeSelected", recipeSelected);
+        startRecipeDetailIntent.putParcelableArrayListExtra("RecipeSelected", (ArrayList<Step>) recipeSelected.getSteps());
         startActivity(startRecipeDetailIntent);
     }
 }
