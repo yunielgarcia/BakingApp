@@ -40,7 +40,7 @@ public class StepAdapter extends ArrayAdapter<Step>{
         // Find the TextView in the list_item.xml layout with the ID version_name
         TextView stepNameTv = (TextView) listItemView.findViewById(R.id.single_step);
         if (currentStep != null) {
-            stepNameTv.setText(currentStep.getDescription());
+            stepNameTv.setText(currentStep.getShortDescription());
         }
 
         return listItemView;
