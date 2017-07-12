@@ -9,12 +9,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.model.Step;
 
 /**
  * Created by ygarcia on 7/10/2017.
  */
 
 public class StepDetailFragment extends Fragment {
+
+    private Step mStepSelected;
 
 
     public StepDetailFragment() {
@@ -26,9 +29,16 @@ public class StepDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
 
         TextView tv = (TextView) rootView.findViewById(R.id.step_detail_tv);
-        tv.setText("Video plus steps here");
+        if (mStepSelected != null){
+            tv.setText(mStepSelected.getDescription());
+        }
+
 
 
         return rootView;
+    }
+
+    public void setmStepSelected(Step mStepSelected) {
+        this.mStepSelected = mStepSelected;
     }
 }
