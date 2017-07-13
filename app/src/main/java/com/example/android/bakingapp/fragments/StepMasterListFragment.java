@@ -50,9 +50,6 @@ public class StepMasterListFragment extends Fragment {
         mStepsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent step_detail_intent = new Intent(getContext(), StepDetailActivity.class);
-//                step_detail_intent.putExtra("step_selected", mSteps.get(position));
-//                startActivity(step_detail_intent);
                 mCallback.onStepSelected(position);
             }
         });

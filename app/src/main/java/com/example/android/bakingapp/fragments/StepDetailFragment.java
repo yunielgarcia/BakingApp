@@ -86,23 +86,6 @@ public class StepDetailFragment extends Fragment {
         player.setPlayWhenReady(true);
 
 
-
-//        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(mContext, Util.getUserAgent(mContext, "ExoPlayer"));
-//        Uri uri = Uri.parse(mStepSelected.getVideoURL());
-//        DashMediaSource dashMediaSource = new DashMediaSource(uri, dataSourceFactory,
-//                new DefaultDashChunkSource.Factory(dataSourceFactory), null, null);
-//
-//        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-//        TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
-//
-//        SimpleExoPlayer simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(mContext, trackSelector);
-//
-//        mPlayerView.setPlayer(simpleExoPlayer);
-//        simpleExoPlayer.prepare(dashMediaSource);
-//
-//        simpleExoPlayer.setPlayWhenReady(true);
-
-
         return rootView;
     }
 
@@ -115,6 +98,7 @@ public class StepDetailFragment extends Fragment {
         player.release();
         player = null;
     }
+
 
     @Override
     public void onDestroyView() {

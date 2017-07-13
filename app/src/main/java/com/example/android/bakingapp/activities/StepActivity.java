@@ -17,6 +17,7 @@ public class StepActivity extends AppCompatActivity implements StepMasterListFra
     private ArrayList<Step> steps;
     private boolean isTablet;
     FragmentManager fm;
+    String recipeName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +25,13 @@ public class StepActivity extends AppCompatActivity implements StepMasterListFra
         setContentView(R.layout.activity_step);
 
         steps = getIntent().getParcelableArrayListExtra("RecipeSelected");
+        recipeName = getIntent().getStringExtra("recipeName");
+
+        setTitle(recipeName);
 
         isTablet = getResources().getBoolean(R.bool.isTablet);
+
+
 
         fm = getSupportFragmentManager();
         //since we added fragment via layout xml
@@ -47,6 +53,9 @@ public class StepActivity extends AppCompatActivity implements StepMasterListFra
         if (!isTablet){//phone
             Intent step_detail_intent = new Intent(this, StepDetailActivity.class);
             step_detail_intent.putExtra("step_selected", steps.get(position));
+            step_detail_intent.putExtra("position", position);
+            step_detail_intent.putParcelableArrayListExtra("steps", steps);
+            step_detail_intent.putExtra("recipeName", recipeName);
             startActivity(step_detail_intent);
         }else {//tablet
             StepDetailFragment detailFragment = new StepDetailFragment();

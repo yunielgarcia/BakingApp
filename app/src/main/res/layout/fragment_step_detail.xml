@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -7,19 +8,40 @@
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/playerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <!-- A small divider -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
-
+        android:layout_weight="4"
+        android:layout_height="0dp"/>
 
     <TextView
         android:id="@+id/step_detail_tv"
         android:layout_width="match_parent"
+        android:gravity="center_horizontal"
         android:layout_height="0dp"
-        android:layout_weight="6"/>
+        android:layout_weight="5"
+        android:padding="@dimen/step_list_padding"
+        tools:text="step description"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/previous_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/previous_step_btn"
+            android:onClick="navigatePrevious"/>
+
+        <Button
+            android:id="@+id/next_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next_step_btn"
+            android:layout_alignParentRight="true"
+            android:onClick="navigateNext"/>
+
+    </RelativeLayout>
+
+
 
 </LinearLayout>

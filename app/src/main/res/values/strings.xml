@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Baking App</string>
+    <string name="previous_step_btn">Previous</string>
+    <string name="next_step_btn">Next</string>
 </resources>

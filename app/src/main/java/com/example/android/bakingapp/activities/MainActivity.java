@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements RecipeCardAdapter
     public void onListItemClick(Recipe recipeSelected) {
         Intent startRecipeDetailIntent = new Intent(this, StepActivity.class);
         startRecipeDetailIntent.putParcelableArrayListExtra("RecipeSelected", (ArrayList<Step>) recipeSelected.getSteps());
+        startRecipeDetailIntent.putExtra("recipeName", recipeSelected.getName());
         startActivity(startRecipeDetailIntent);
     }
 }
