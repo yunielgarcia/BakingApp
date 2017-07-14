@@ -26,6 +26,8 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
+import java.util.ArrayList;
+
 /**
  * Created by ygarcia on 7/10/2017.
  */
@@ -33,10 +35,24 @@ import com.google.android.exoplayer2.util.Util;
 public class StepDetailFragment extends Fragment {
 
     private Step mStepSelected;
+
+    private ArrayList<Step> mSteps;
+    private int mCurrentPos;
+
     private SimpleExoPlayerView mPlayerView;
     private Context mContext;
     private Uri mVideoUri;
     private SimpleExoPlayer player;
+
+    public static final String STEP_SELECTED = "step_selected";
+    public static final String STEPS = "steps";
+    public static final String CURRENT_POS = "current_pos";
+
+    DefaultBandwidthMeter bandwidthMeter;
+    DataSource.Factory dataSourceFactory;
+    ExtractorsFactory extractorsFactory;
+
+    TextView tv;
 
 
     public StepDetailFragment() {
@@ -45,6 +61,14 @@ public class StepDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        // Load the saved state (the list of images and list index) if there is one
+        if(savedInstanceState != null) {
+            mStepSelected = savedInstanceState.getParcelable(STEP_SELECTED);
+            mSteps = savedInstanceState.getParcelableArrayList(STEPS);
+            mCurrentPos = savedInstanceState.getInt(CURRENT_POS);
+        }
+
         View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
 
         mContext = rootView.getContext();
@@ -55,7 +79,7 @@ public class StepDetailFragment extends Fragment {
             mPlayerView.setVisibility(View.GONE);
         }
 
-        TextView tv = (TextView) rootView.findViewById(R.id.step_detail_tv);
+        tv = (TextView) rootView.findViewById(R.id.step_detail_tv);
         if (mStepSelected != null) {
             tv.setText(mStepSelected.getDescription());
             mVideoUri = Uri.parse(mStepSelected.getVideoURL());
@@ -73,17 +97,36 @@ public class StepDetailFragment extends Fragment {
         //3. Prepare the MediaSource
         // Produces DataSource instances through which media data is loaded.
         // Measures bandwidth during playback. Can be null if not required.
-        DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        bandwidthMeter = new DefaultBandwidthMeter();
         // Produces DataSource instances through which media data is loaded.
-        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(mContext,
-                Util.getUserAgent(mContext, "yourApplicationName"), bandwidthMeter);
+        dataSourceFactory = new DefaultDataSourceFactory(mContext,
+                Util.getUserAgent(mContext, "bakingapp"), bandwidthMeter);
         // Produces Extractor instances for parsing the media data.
-        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+        extractorsFactory = new DefaultExtractorsFactory();
         // This is the MediaSource representing the media to be played.
         MediaSource videoSource = new ExtractorMediaSource(mVideoUri,
                 dataSourceFactory, extractorsFactory, null, null);
         player.prepare(videoSource);
         player.setPlayWhenReady(true);
+
+//        rootView.findViewById(R.id.next_btn).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                switch (v.getId()){
+//                    rootVi findViewById(R.id.previous_btn).setVisibility(View.VISIBLE);
+//                    move(1);
+//                }
+//
+//            }
+//        });
+//
+//        rootView.findViewById(R.id.previous_btn).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                v.findViewById(R.id.next_btn).setVisibility(View.VISIBLE);
+//                move(-1);
+//            }
+//        });
 
 
         return rootView;
@@ -104,5 +147,29 @@ public class StepDetailFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         releasePlayer();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle currentState) {
+        currentState.putParcelable(STEP_SELECTED, mStepSelected);
+        currentState.putParcelableArrayList(STEPS, mSteps);
+        currentState.putInt(CURRENT_POS, mCurrentPos);
+    }
+
+    public void setmSteps(ArrayList<Step> mSteps) {
+        this.mSteps = mSteps;
+    }
+
+    public void setmCurrentPos(int mCurrentPos) {
+        this.mCurrentPos = mCurrentPos;
+    }
+
+    private void move(int mov){
+        int newIdx = mCurrentPos + mov;
+          if ( newIdx <= mSteps.size()-1 && newIdx >= 0){
+            mCurrentPos = mCurrentPos + mov;
+            mStepSelected = mSteps.get(mCurrentPos);
+            tv.setText(mStepSelected.getDescription());
+        }
     }
 }

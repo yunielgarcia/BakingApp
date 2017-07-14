@@ -29,16 +29,14 @@
             android:id="@+id/previous_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/previous_step_btn"
-            android:onClick="navigatePrevious"/>
+            android:text="@string/previous_step_btn"/>
 
         <Button
             android:id="@+id/next_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/next_step_btn"
-            android:layout_alignParentRight="true"
-            android:onClick="navigateNext"/>
+            android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
 
