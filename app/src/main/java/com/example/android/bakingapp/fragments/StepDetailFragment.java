@@ -63,7 +63,7 @@ public class StepDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         // Load the saved state (the list of images and list index) if there is one
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             mStepSelected = savedInstanceState.getParcelable(STEP_SELECTED);
             mSteps = savedInstanceState.getParcelableArrayList(STEPS);
             mCurrentPos = savedInstanceState.getInt(CURRENT_POS);
@@ -75,7 +75,7 @@ public class StepDetailFragment extends Fragment {
 
         mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.playerView);
 
-        if ( mStepSelected.getVideoURL().isEmpty()){
+        if (mStepSelected.getVideoURL().isEmpty()) {
             mPlayerView.setVisibility(View.GONE);
         }
 
@@ -109,24 +109,19 @@ public class StepDetailFragment extends Fragment {
         player.prepare(videoSource);
         player.setPlayWhenReady(true);
 
-//        rootView.findViewById(R.id.next_btn).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                switch (v.getId()){
-//                    rootVi findViewById(R.id.previous_btn).setVisibility(View.VISIBLE);
-//                    move(1);
-//                }
-//
-//            }
-//        });
-//
-//        rootView.findViewById(R.id.previous_btn).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                v.findViewById(R.id.next_btn).setVisibility(View.VISIBLE);
-//                move(-1);
-//            }
-//        });
+        rootView.findViewById(R.id.next_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                move(1);
+            }
+        });
+
+        rootView.findViewById(R.id.previous_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                move(-1);
+            }
+        });
 
 
         return rootView;
@@ -136,7 +131,7 @@ public class StepDetailFragment extends Fragment {
         this.mStepSelected = mStepSelected;
     }
 
-    private void releasePlayer(){
+    private void releasePlayer() {
         player.stop();
         player.release();
         player = null;
@@ -164,12 +159,19 @@ public class StepDetailFragment extends Fragment {
         this.mCurrentPos = mCurrentPos;
     }
 
-    private void move(int mov){
+    private void move(int mov) {
         int newIdx = mCurrentPos + mov;
-          if ( newIdx <= mSteps.size()-1 && newIdx >= 0){
+        if (newIdx <= mSteps.size() - 1 && newIdx >= 0) {
             mCurrentPos = mCurrentPos + mov;
             mStepSelected = mSteps.get(mCurrentPos);
+            //changing description
             tv.setText(mStepSelected.getDescription());
+            //creating new source
+            Uri newUri = Uri.parse(mStepSelected.getVideoURL());
+            MediaSource newVideoSource = new ExtractorMediaSource(newUri,
+                    dataSourceFactory, extractorsFactory, null, null);
+            player.prepare(newVideoSource);
+            player.setPlayWhenReady(true);
         }
     }
 }
