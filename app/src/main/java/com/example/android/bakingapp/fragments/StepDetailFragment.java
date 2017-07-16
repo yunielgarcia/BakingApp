@@ -52,7 +52,7 @@ public class StepDetailFragment extends Fragment {
     DataSource.Factory dataSourceFactory;
     ExtractorsFactory extractorsFactory;
 
-    TextView tv;
+    TextView description_tv;
 
 
     public StepDetailFragment() {
@@ -69,20 +69,38 @@ public class StepDetailFragment extends Fragment {
             mCurrentPos = savedInstanceState.getInt(CURRENT_POS);
         }
 
+        //root view
         View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
 
+        //context
         mContext = rootView.getContext();
 
         mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.playerView);
+        mVideoUri = Uri.parse(mStepSelected.getVideoURL());
 
-        if (mStepSelected.getVideoURL().isEmpty()) {
-            mPlayerView.setVisibility(View.GONE);
-        }
+        //in portrait find description and buttons
+        if (rootView.findViewById(R.id.container_landscape) == null) {
+            if (mStepSelected.getVideoURL().isEmpty()) {
+                mPlayerView.setVisibility(View.GONE);
+            }
 
-        tv = (TextView) rootView.findViewById(R.id.step_detail_tv);
-        if (mStepSelected != null) {
-            tv.setText(mStepSelected.getDescription());
-            mVideoUri = Uri.parse(mStepSelected.getVideoURL());
+            description_tv = (TextView) rootView.findViewById(R.id.step_detail_tv);
+            description_tv.setText(mStepSelected.getDescription());
+
+            rootView.findViewById(R.id.next_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    move(1);
+                }
+            });
+
+            rootView.findViewById(R.id.previous_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    move(-1);
+                }
+            });
+
         }
 
 
@@ -108,20 +126,6 @@ public class StepDetailFragment extends Fragment {
                 dataSourceFactory, extractorsFactory, null, null);
         player.prepare(videoSource);
         player.setPlayWhenReady(true);
-
-        rootView.findViewById(R.id.next_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                move(1);
-            }
-        });
-
-        rootView.findViewById(R.id.previous_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                move(-1);
-            }
-        });
 
 
         return rootView;
@@ -165,7 +169,7 @@ public class StepDetailFragment extends Fragment {
             mCurrentPos = mCurrentPos + mov;
             mStepSelected = mSteps.get(mCurrentPos);
             //changing description
-            tv.setText(mStepSelected.getDescription());
+            description_tv.setText(mStepSelected.getDescription());
             //creating new source
             Uri newUri = Uri.parse(mStepSelected.getVideoURL());
             MediaSource newVideoSource = new ExtractorMediaSource(newUri,

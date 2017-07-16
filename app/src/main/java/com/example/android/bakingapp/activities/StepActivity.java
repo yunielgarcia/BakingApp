@@ -12,7 +12,11 @@ import com.example.android.bakingapp.model.Step;
 
 import java.util.ArrayList;
 
+import static android.R.attr.fragment;
+
 public class StepActivity extends AppCompatActivity implements StepMasterListFragment.OnStepClickListener{
+
+    public static final String STEPS = "steps";
 
     private ArrayList<Step> steps;
     private boolean isTablet;
@@ -24,28 +28,44 @@ public class StepActivity extends AppCompatActivity implements StepMasterListFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step);
 
-        steps = getIntent().getParcelableArrayListExtra("RecipeSelected");
+
         recipeName = getIntent().getStringExtra("recipeName");
 
         setTitle(recipeName);
 
         isTablet = getResources().getBoolean(R.bool.isTablet);
 
-
-
         fm = getSupportFragmentManager();
         //since we added fragment via layout xml
-        StepMasterListFragment fragment = (StepMasterListFragment)fm.findFragmentById(R.id.master_list_steps);
-        fragment.setSteps(steps);
+        if (savedInstanceState == null){
+            steps = getIntent().getParcelableArrayListExtra("RecipeSelected");
+            StepMasterListFragment fragment = (StepMasterListFragment)fm.findFragmentById(R.id.master_list_steps);
+            fragment.setSteps(steps);
 
-        if (isTablet){
-            StepDetailFragment detailFragment = new StepDetailFragment();
-            //always display the firs step data
-            detailFragment.setmStepSelected(steps.get(0));
-            fm.beginTransaction()
-                    .add(R.id.step_detail_container, detailFragment)
-                    .commit();
+            if (isTablet){
+                initDetailFragment(steps);
+            }
+        } else {
+            steps = savedInstanceState.getParcelableArrayList(STEPS);
+            StepMasterListFragment fragment = (StepMasterListFragment)fm.findFragmentById(R.id.master_list_steps);
+            fragment.setSteps(steps);
+
+            if (isTablet){
+                initDetailFragment(steps);
+            }
         }
+
+    }
+
+    public void initDetailFragment(ArrayList<Step> steps){
+        StepDetailFragment detailFragment = new StepDetailFragment();
+        //always display the firs step data
+        detailFragment.setmStepSelected(steps.get(0));
+        detailFragment.setmSteps(steps);
+        detailFragment.setmCurrentPos(0);
+        fm.beginTransaction()
+                .add(R.id.step_detail_container, detailFragment)
+                .commit();
     }
 
     @Override
@@ -66,5 +86,10 @@ public class StepActivity extends AppCompatActivity implements StepMasterListFra
                     .commit();
         }
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(STEPS, steps);
     }
 }

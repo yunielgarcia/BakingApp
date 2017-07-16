@@ -75,4 +75,6 @@ public class StepMasterListFragment extends Fragment {
             throw new ClassCastException(context.toString() + " must implement OnImageClickListener");
         }
     }
+
+
 }
