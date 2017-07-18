@@ -2,4 +2,8 @@
     <string name="app_name">Baking App</string>
     <string name="previous_step_btn">Previous</string>
     <string name="next_step_btn">Next</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <string name="bakingApp">Baking App</string>
 </resources>

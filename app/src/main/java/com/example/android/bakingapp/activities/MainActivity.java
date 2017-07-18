@@ -74,13 +74,11 @@ public class MainActivity extends AppCompatActivity implements RecipeCardAdapter
     }
 
     private void loadData() {
-//        mLoadingIndicator.setVisibility(View.VISIBLE);
 
         Call<List<Recipe>> call = mServiceInterface.getRecipies();
         call.enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-//                mLoadingIndicator.setVisibility(View.INVISIBLE);
                 if (response.isSuccessful()) {
                     recipes = response.body();
                     mRecipeAdapter.setRecipesData(recipes);
@@ -94,10 +92,7 @@ public class MainActivity extends AppCompatActivity implements RecipeCardAdapter
 
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
-                // Log error here since request failed
-//                mLoadingIndicator.setVisibility(View.INVISIBLE);
                 Log.e(TAG, t.toString());
-//                showErrorMessage();
             }
         });
     }
