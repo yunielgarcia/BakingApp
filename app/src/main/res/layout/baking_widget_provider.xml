@@ -16,14 +16,14 @@
             android:layout_height="wrap_content"
             android:background="#aaDEDFDE"
             android:orientation="horizontal"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp">
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/widget_img_launcher"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
                 android:src="@drawable/ic_room_service_black_24dp" />
 
             <TextView
@@ -47,16 +47,17 @@
             <ListView
                 android:id="@+id/widget_list"
                 android:layout_width="0dp"
-                android:layout_weight="5"
-                android:layout_height="match_parent"></ListView>
+                android:layout_height="match_parent"
+                android:layout_weight="5" />
+
 
             <TextView
-                android:id="@+id/widget_recipes_tv"
+                android:id="@+id/widget_ingredients_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
-                android:background="@android:color/white"
-                android:text="ingredients here" />
+                android:background="@android:color/white" />
+
 
         </LinearLayout>
 

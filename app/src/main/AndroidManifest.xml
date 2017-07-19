@@ -34,6 +34,8 @@
         <service android:name=".widget.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
+        <service android:name=".widget.BakingRecipeService"/>
+
     </application>
 
 </manifest>
