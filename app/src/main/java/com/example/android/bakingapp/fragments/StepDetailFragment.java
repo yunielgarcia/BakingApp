@@ -168,6 +168,13 @@ public class StepDetailFragment extends Fragment {
         if (newIdx <= mSteps.size() - 1 && newIdx >= 0) {
             mCurrentPos = mCurrentPos + mov;
             mStepSelected = mSteps.get(mCurrentPos);
+
+            if (mStepSelected.getVideoURL().isEmpty()) {
+                mPlayerView.setVisibility(View.GONE);
+            } else {
+                mPlayerView.setVisibility(View.VISIBLE);
+            }
+
             //changing description
             description_tv.setText(mStepSelected.getDescription());
             //creating new source

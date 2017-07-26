@@ -1,34 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+    <!-- Load the toolbar here -->
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-    <!--
-This layout is a two-pane layout for the master/detail flow.
--->
+    <LinearLayout
 
-    <fragment
-        android:id="@+id/master_list_steps"
-        android:name="com.example.android.bakingapp.fragments.StepMasterListFragment"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="4"
-        tools:context="com.example.android.bakingapp.activities.StepActivity"/>
+        android:orientation="horizontal">
 
-    <!-- A small divider -->
-    <View
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:background="@android:color/darker_gray" />
+        <!--
+    This layout is a two-pane layout for the master/detail flow.
+    -->
 
-    <FrameLayout
-        android:id="@+id/step_detail_container"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="6" />
+
+        <fragment
+            android:id="@+id/master_list_steps"
+            android:name="com.example.android.bakingapp.fragments.StepMasterListFragment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            tools:context="com.example.android.bakingapp.activities.StepActivity"/>
+
+        <!-- A small divider -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray" />
+
+        <FrameLayout
+            android:id="@+id/step_detail_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6" />
+
+    </LinearLayout>
 
 </LinearLayout>
+
+
 
 

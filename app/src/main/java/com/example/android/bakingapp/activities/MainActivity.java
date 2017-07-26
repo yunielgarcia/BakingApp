@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.example.android.bakingapp.R;
@@ -37,6 +38,10 @@ public class MainActivity extends AppCompatActivity implements RecipeCardAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
+        setSupportActionBar(myToolbar);
+
 
         isTablet = getResources().getBoolean(R.bool.isTablet);
 
@@ -79,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements RecipeCardAdapter
         call.enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+//                mLoadingIndicator.setVisibility(View.INVISIBLE);
                 if (response.isSuccessful()) {
                     recipes = response.body();
                     mRecipeAdapter.setRecipesData(recipes);

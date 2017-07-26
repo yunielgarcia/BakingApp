@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.fragments.StepDetailFragment;
@@ -11,8 +14,6 @@ import com.example.android.bakingapp.fragments.StepMasterListFragment;
 import com.example.android.bakingapp.model.Step;
 
 import java.util.ArrayList;
-
-import static android.R.attr.fragment;
 
 public class StepActivity extends AppCompatActivity implements StepMasterListFragment.OnStepClickListener{
 
@@ -31,7 +32,15 @@ public class StepActivity extends AppCompatActivity implements StepMasterListFra
 
         recipeName = getIntent().getStringExtra("recipeName");
 
-        setTitle(recipeName);
+        // Sets the Toolbar to act as the ActionBar for this Activity window.
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
+        setSupportActionBar(toolbar);
+        // Remove default title text
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // Get access to the custom title view
+        TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        mTitle.setVisibility(View.VISIBLE);
+        mTitle.setText(recipeName);
 
         isTablet = getResources().getBoolean(R.bool.isTablet);
 
@@ -81,6 +90,8 @@ public class StepActivity extends AppCompatActivity implements StepMasterListFra
             StepDetailFragment detailFragment = new StepDetailFragment();
             //always display the firs step data
             detailFragment.setmStepSelected(steps.get(position));
+            detailFragment.setmSteps(steps);
+            detailFragment.setmCurrentPos(position);
             fm.beginTransaction()
                     .replace(R.id.step_detail_container, detailFragment)
                     .commit();
