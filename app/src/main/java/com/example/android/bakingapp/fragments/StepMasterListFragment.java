@@ -4,11 +4,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapters.StepAdapter;
@@ -20,14 +20,20 @@ import java.util.ArrayList;
  * Created by ygarcia on 7/5/2017.
  */
 
-public class StepMasterListFragment extends Fragment {
+public class StepMasterListFragment extends Fragment implements StepAdapter.StepListItemClickListener{
 
     private ArrayList<Step> mSteps;
 
-    private ListView mStepsListView;
+    private RecyclerView mStepsListView;
     private StepAdapter mStepAdapter;
     private boolean isTablet;
     OnStepClickListener mCallback;
+    private LinearLayoutManager mLyoutManager;
+
+    @Override
+    public void onListItemClick(int stepSelectedPos) {
+        mCallback.onStepSelected(stepSelectedPos);
+    }
 
     public interface OnStepClickListener {
         void onStepSelected(int position);
@@ -44,15 +50,20 @@ public class StepMasterListFragment extends Fragment {
 
         isTablet = getResources().getBoolean(R.bool.isTablet);
 
-        mStepsListView = (ListView) rootView.findViewById(R.id.steps_list_view);
+        mStepsListView = (RecyclerView) rootView.findViewById(R.id.steps_list_view);
+        mLyoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        mStepsListView.setLayoutManager(mLyoutManager);
+        mStepsListView.setHasFixedSize(true);
+        mStepAdapter = new StepAdapter(this);
+        mStepsListView.setAdapter(mStepAdapter);
 
         //go to activity with data
-        mStepsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mCallback.onStepSelected(position);
-            }
-        });
+//        mStepsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                mCallback.onStepSelected(position);
+//            }
+//        });
 
 
         return rootView;
@@ -60,8 +71,7 @@ public class StepMasterListFragment extends Fragment {
 
     public void setSteps(ArrayList<Step> steps) {
         this.mSteps = steps;
-        mStepAdapter = new StepAdapter(getContext(), mSteps);
-        mStepsListView.setAdapter(mStepAdapter);
+        mStepAdapter.setStepsData(this.mSteps);
     }
 
     @Override
