@@ -28,7 +28,8 @@ public class StepMasterListFragment extends Fragment implements StepAdapter.Step
     private StepAdapter mStepAdapter;
     private boolean isTablet;
     OnStepClickListener mCallback;
-    private LinearLayoutManager mLyoutManager;
+    private LinearLayoutManager mLayoutManager;
+
 
     @Override
     public void onListItemClick(int stepSelectedPos) {
@@ -51,20 +52,11 @@ public class StepMasterListFragment extends Fragment implements StepAdapter.Step
         isTablet = getResources().getBoolean(R.bool.isTablet);
 
         mStepsListView = (RecyclerView) rootView.findViewById(R.id.steps_list_view);
-        mLyoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        mStepsListView.setLayoutManager(mLyoutManager);
+        mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        mStepsListView.setLayoutManager(mLayoutManager);
         mStepsListView.setHasFixedSize(true);
         mStepAdapter = new StepAdapter(this);
         mStepsListView.setAdapter(mStepAdapter);
-
-        //go to activity with data
-//        mStepsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                mCallback.onStepSelected(position);
-//            }
-//        });
-
 
         return rootView;
     }
@@ -86,5 +78,7 @@ public class StepMasterListFragment extends Fragment implements StepAdapter.Step
         }
     }
 
-
+    public LinearLayoutManager getmLayoutManager() {
+        return mLayoutManager;
+    }
 }

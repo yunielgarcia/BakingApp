@@ -58,33 +58,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
         return mSteps.size();
     }
 
-//    public StepAdapter(@NonNull Context context, @NonNull ArrayList<Step> steps) {
-//        super(context, 0, steps);
-//    }
-//
-//    @NonNull
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//
-//        // Check if the existing view is being reused, otherwise inflate the view
-//        View listItemView = convertView;
-//        if(listItemView == null) {
-//            listItemView = LayoutInflater.from(getContext()).inflate(
-//                    R.layout.step_list_item, parent, false);
-//        }
-//
-//        // Get the step object located at this position in the list
-//        Step currentStep = getItem(position);
-//
-//        // Find the TextView in the list_item.xml layout with the ID version_name
-//        TextView stepNameTv = (TextView) listItemView.findViewById(R.id.single_step);
-//        if (currentStep != null) {
-//            stepNameTv.setText(currentStep.getShortDescription());
-//        }
-//
-//        return listItemView;
-//    }
-
     public class StepAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public final TextView mStepItem_tv;
 
