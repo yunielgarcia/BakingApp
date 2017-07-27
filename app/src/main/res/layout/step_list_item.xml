@@ -7,6 +7,10 @@
     android:padding="@dimen/step_list_padding"
     android:weightSum="1">
 
+    <ImageView
+        android:id="@+id/step_img_view"
+        style="@style/img_size"/>
+
     <TextView
         android:id="@+id/single_step"
         android:layout_width="match_parent"

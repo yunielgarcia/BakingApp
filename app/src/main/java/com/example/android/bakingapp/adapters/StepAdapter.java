@@ -5,10 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.model.Step;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -50,6 +52,11 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
         String stepTitle = singleStepObj.getShortDescription();
 
         holder.mStepItem_tv.setText(stepTitle);
+        if (!singleStepObj.getThumbnailURL().isEmpty() && singleStepObj.getThumbnailURL() != null ){
+            Picasso.with(context).load(singleStepObj.getThumbnailURL()).into(holder.mStepImgView);
+        } else {
+            holder.mStepImgView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -58,12 +65,14 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
         return mSteps.size();
     }
 
-    public class StepAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public final TextView mStepItem_tv;
+    class StepAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        final TextView mStepItem_tv;
+        ImageView mStepImgView;
 
-        public StepAdapterViewHolder(View itemView) {
+        StepAdapterViewHolder(View itemView) {
             super(itemView);
             this.mStepItem_tv = (TextView) itemView.findViewById(R.id.single_step);
+            this.mStepImgView = (ImageView)itemView.findViewById(R.id.step_img_view);
             itemView.setOnClickListener(this);
         }
 

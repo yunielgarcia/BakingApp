@@ -6,10 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.model.Recipe;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -51,12 +53,16 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Re
 
     @Override
     public void onBindViewHolder(RecipeCardAdapterViewHolder holder, int position) {
-        Recipe singleIdeaObj = mRecipes.get(position);
+        Recipe singleRecipeObj= mRecipes.get(position);
         Context context = holder.mRecipeItem_tv.getContext();
-        String recipeTitle = singleIdeaObj.getName();
+        String recipeTitle = singleRecipeObj.getName();
 
         holder.mRecipeItem_tv.setText(recipeTitle);
-
+        if (singleRecipeObj.getImage() != null && !singleRecipeObj.getImage().isEmpty()){
+            Picasso.with(context).load(singleRecipeObj.getImage()).into(holder.mRecipeImgView);
+        } else {
+            holder.mRecipeImgView.setImageResource(R.drawable.ic_room_service_black_24dp);
+        }
 
         Typeface font = Typeface.createFromAsset(context.getAssets(), "GreatVibes-Regular.otf");
         holder.mRecipeItem_tv.setTypeface(font);
@@ -75,11 +81,13 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Re
 
     public class RecipeCardAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        public final TextView mRecipeItem_tv;
+        final TextView mRecipeItem_tv;
+        ImageView mRecipeImgView;
 
-        public RecipeCardAdapterViewHolder(View itemView) {
+        RecipeCardAdapterViewHolder(View itemView) {
             super(itemView);
             this.mRecipeItem_tv = (TextView) itemView.findViewById(R.id.title);
+            this.mRecipeImgView = (ImageView) itemView.findViewById(R.id.recipe_img_view);
             itemView.setOnClickListener(this);
         }
 

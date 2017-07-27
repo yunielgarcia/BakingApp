@@ -23,6 +23,7 @@
     <dimen name="step_list_padding">20dp</dimen>
 
     <dimen name="list_padding">50dp</dimen>
+    <dimen name="imgs_size">50dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information
