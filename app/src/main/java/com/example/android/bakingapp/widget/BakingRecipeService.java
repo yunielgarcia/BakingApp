@@ -42,9 +42,10 @@ public class BakingRecipeService extends IntentService {
         context.startService(intent);
     }
 
-    public static void startActionUpdateIngredients(Context context) {
+    public static void startActionUpdateIngredients(Context context, int pos) {
         Intent intent = new Intent(context, BakingRecipeService.class);
         intent.setAction(UPD_INGREDIENTS);
+        intent.putExtra(INGR_POS, pos);
         context.startService(intent);
     }
 
@@ -74,11 +75,11 @@ public class BakingRecipeService extends IntentService {
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
                 if (response.isSuccessful()) {
                     recipes = response.body();
-                    List<String> recipesNames = createRecipesList(recipes);
+                    String recipeName = recipes.get(pos).getName();
                     String ingredients = ingredientsForRecipe(recipes.get(pos));
 
 
-                    BakingWidgetProvider.updateRecipeWidget(getApplicationContext(), appWidgetManager, appWidgetIds, recipesNames, ingredients);
+                    BakingWidgetProvider.updateRecipeWidget(getApplicationContext(), appWidgetManager, appWidgetIds, recipeName, ingredients);
 
 
                 } else {

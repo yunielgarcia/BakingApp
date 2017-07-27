@@ -44,8 +44,8 @@
             android:orientation="horizontal">
 
 
-            <ListView
-                android:id="@+id/widget_list"
+            <TextView
+                android:id="@+id/widget_recipeName"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5" />

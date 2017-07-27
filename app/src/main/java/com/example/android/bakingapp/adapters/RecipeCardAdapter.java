@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.model.Recipe;
+import com.example.android.bakingapp.widget.BakingRecipeService;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -83,9 +84,11 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Re
 
         final TextView mRecipeItem_tv;
         ImageView mRecipeImgView;
+        Context mContext;
 
         RecipeCardAdapterViewHolder(View itemView) {
             super(itemView);
+            mContext = itemView.getContext();
             this.mRecipeItem_tv = (TextView) itemView.findViewById(R.id.title);
             this.mRecipeImgView = (ImageView) itemView.findViewById(R.id.recipe_img_view);
             itemView.setOnClickListener(this);
@@ -96,6 +99,9 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Re
             int clickedPosition = getAdapterPosition();
             Recipe recipeSelected = mRecipes.get(clickedPosition);
             mOnClickListener.onListItemClick(recipeSelected);
+
+            //here we have the position of the recipe so let's update our widget here calling the service
+            BakingRecipeService.startActionUpdateIngredients(mContext, clickedPosition);
         }
     }
 }
