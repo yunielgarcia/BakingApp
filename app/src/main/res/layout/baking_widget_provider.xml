@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/widget_margin"
@@ -41,22 +42,29 @@
             android:layout_height="match_parent"
             android:background="#bbDEDFDE"
             android:backgroundTint="@android:color/white"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
 
             <TextView
                 android:id="@+id/widget_recipeName"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                tools:text="Nutella ingredients:" />
 
 
             <TextView
                 android:id="@+id/widget_ingredients_tv"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
-                android:background="@android:color/white" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                tools:text="ingredient 1, ingredient 2, ingredient 3, ingredient 4, ingredient 5, ingredient 6," />
 
 
         </LinearLayout>

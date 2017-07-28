@@ -24,7 +24,7 @@ public class BakingWidgetProvider extends AppWidgetProvider {
         views = new RemoteViews(context.getPackageName(), R.layout.baking_widget_provider);
 
         views.setTextViewText(R.id.widget_ingredients_tv, ingredients);
-        views.setTextViewText(R.id.widget_recipeName, recipeName);
+        views.setTextViewText(R.id.widget_recipeName, recipeName + " ingredients:");
 
         //create intent to lauch app
         Intent intent = new Intent(context, MainActivity.class);
