@@ -149,6 +149,12 @@ public class StepDetailFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        releasePlayer();
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle currentState) {
         currentState.putParcelable(STEP_SELECTED, mStepSelected);
         currentState.putParcelableArrayList(STEPS, mSteps);
