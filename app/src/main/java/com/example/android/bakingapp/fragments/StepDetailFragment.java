@@ -136,9 +136,11 @@ public class StepDetailFragment extends Fragment {
     }
 
     private void releasePlayer() {
-        player.stop();
-        player.release();
-        player = null;
+        if (player != null){
+            player.stop();
+            player.release();
+            player = null;
+        }
     }
 
 
