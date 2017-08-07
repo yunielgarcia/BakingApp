@@ -13,10 +13,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.android.bakingapp.IdlingResource.SimpleIdlingResource;
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.Utils.ConnectivityReceiver;
+import com.example.android.bakingapp.Utils.MyApplication;
 import com.example.android.bakingapp.adapters.RecipeCardAdapter;
+import com.example.android.bakingapp.model.Ingredient;
 import com.example.android.bakingapp.model.Recipe;
 import com.example.android.bakingapp.model.Step;
 import com.example.android.bakingapp.rest.ServiceGenerator;
@@ -29,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements RecipeCardAdapter.ListItemClickListener{
+public class MainActivity extends AppCompatActivity implements RecipeCardAdapter.ListItemClickListener, ConnectivityReceiver.ConnectivityReceiverListener{
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private ServiceInterface mServiceInterface;
@@ -38,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements RecipeCardAdapter
     private RecipeCardAdapter mRecipeAdapter;
     private boolean isTablet;
     private LinearLayoutManager mLyoutManager;
+    public static final String NO_INTERNET = "No internet connection detected";
+    public static final String ERROR_RETRIEVING = "Sorry, there was an error fetching data";
+    public static final String INGREDIENTS_LIST = "ingredients_list";
 
     // The Idling Resource which will be null in production.
     @Nullable
@@ -95,7 +102,13 @@ public class MainActivity extends AppCompatActivity implements RecipeCardAdapter
     @Override
     protected void onStart() {
         super.onStart();
-        loadData();
+        MyApplication.getInstance().setConnectivityListener(this);
+        if (ConnectivityReceiver.isConnected()){
+            loadData();
+        } else {
+            Toast.makeText(this, NO_INTERNET, Toast.LENGTH_LONG).show();
+        }
+
     }
 
     private void loadData() {
@@ -117,13 +130,14 @@ public class MainActivity extends AppCompatActivity implements RecipeCardAdapter
                     mRecipeAdapter.setRecipesData(recipes);
                 } else {
                     int statusCode = response.code();
-                    // handle request errors depending on status code
+                    Toast.makeText(getApplicationContext(), ERROR_RETRIEVING, Toast.LENGTH_SHORT).show();
                 }
                 Log.d(TAG, "Number of recipes received: " + recipes.size());
             }
 
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), ERROR_RETRIEVING, Toast.LENGTH_SHORT).show();
                 Log.e(TAG, t.toString());
             }
         });
@@ -133,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements RecipeCardAdapter
     public void onListItemClick(Recipe recipeSelected) {
         Intent startRecipeDetailIntent = new Intent(this, StepActivity.class);
         startRecipeDetailIntent.putParcelableArrayListExtra("RecipeSelected", (ArrayList<Step>) recipeSelected.getSteps());
+        startRecipeDetailIntent.putParcelableArrayListExtra(INGREDIENTS_LIST, (ArrayList<Ingredient>) recipeSelected.getIngredients());
         startRecipeDetailIntent.putExtra("recipeName", recipeSelected.getName());
         startActivity(startRecipeDetailIntent);
     }
@@ -153,6 +168,11 @@ public class MainActivity extends AppCompatActivity implements RecipeCardAdapter
     @NonNull
     public List<Recipe> getRecipesLoaded() {
         return recipes;
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+
     }
 }
 

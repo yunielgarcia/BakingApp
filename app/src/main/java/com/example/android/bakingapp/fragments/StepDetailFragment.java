@@ -103,7 +103,38 @@ public class StepDetailFragment extends Fragment {
 
         }
 
+        return rootView;
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        initPlayer();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (player == null){
+            initPlayer();
+        }
+    }
+
+
+
+    public void setmStepSelected(Step mStepSelected) {
+        this.mStepSelected = mStepSelected;
+    }
+
+    private void releasePlayer() {
+        if (player != null){
+            player.stop();
+            player.release();
+            player = null;
+        }
+    }
+
+    private void initPlayer(){
         //FROM THE DOCS
         // 1. Create a default TrackSelector
         TrackSelector trackSelector = new DefaultTrackSelector();
@@ -126,21 +157,6 @@ public class StepDetailFragment extends Fragment {
                 dataSourceFactory, extractorsFactory, null, null);
         player.prepare(videoSource);
         player.setPlayWhenReady(true);
-
-
-        return rootView;
-    }
-
-    public void setmStepSelected(Step mStepSelected) {
-        this.mStepSelected = mStepSelected;
-    }
-
-    private void releasePlayer() {
-        if (player != null){
-            player.stop();
-            player.release();
-            player = null;
-        }
     }
 
 

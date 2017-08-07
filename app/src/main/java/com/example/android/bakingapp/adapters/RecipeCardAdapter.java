@@ -59,7 +59,7 @@ public class RecipeCardAdapter extends RecyclerView.Adapter<RecipeCardAdapter.Re
         String recipeTitle = singleRecipeObj.getName();
 
         holder.mRecipeItem_tv.setText(recipeTitle);
-        if (singleRecipeObj.getImage() != null && !singleRecipeObj.getImage().isEmpty()){
+        if (!singleRecipeObj.getImage().isEmpty()){
             Picasso.with(context).load(singleRecipeObj.getImage()).into(holder.mRecipeImgView);
         } else {
             holder.mRecipeImgView.setImageResource(R.drawable.ic_room_service_black_24dp);

@@ -29,11 +29,11 @@ public class StepDetailActivity extends AppCompatActivity {
         fm = getSupportFragmentManager();
 
         if (savedInstanceState == null){
-            mStepSelected = getIntent().getParcelableExtra("step_selected");
-            String recipeName = getIntent().getStringExtra("recipeName");
+            mStepSelected = getIntent().getParcelableExtra(StepActivity.STEP_SELECTED);
+            String recipeName = getIntent().getStringExtra(StepActivity.RECIPE_NAME);
             setTitle(recipeName);
-            mCurrentPos = getIntent().getIntExtra("position", 0);
-            steps = getIntent().getParcelableArrayListExtra("steps");
+            mCurrentPos = getIntent().getIntExtra(StepActivity.POSITION, 0);
+            steps = getIntent().getParcelableArrayListExtra(StepActivity.STEPS);
 
             StepDetailFragment detailFragment = new StepDetailFragment();
 

@@ -22,6 +22,9 @@
     <dimen name="step_list_font_size">20dp</dimen>
     <dimen name="step_list_padding">20dp</dimen>
 
+    <dimen name="ing_list_font_size">20dp</dimen>
+    <dimen name="ing_list_padding">20dp</dimen>
+
     <dimen name="list_padding">50dp</dimen>
     <dimen name="imgs_size">50dp</dimen>
 

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapters.StepAdapter;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
  * Created by ygarcia on 7/5/2017.
  */
 
-public class StepMasterListFragment extends Fragment implements StepAdapter.StepListItemClickListener{
+public class StepMasterListFragment extends Fragment implements StepAdapter.StepListItemClickListener, View.OnClickListener {
 
     private ArrayList<Step> mSteps;
 
@@ -30,14 +31,24 @@ public class StepMasterListFragment extends Fragment implements StepAdapter.Step
     OnStepClickListener mCallback;
     private LinearLayoutManager mLayoutManager;
 
-
+    //this implementation comes from adapter. It gives us position to eventually pass to the activity. We do so by initializing our interface mCallback with the same position
     @Override
     public void onListItemClick(int stepSelectedPos) {
         mCallback.onStepSelected(stepSelectedPos);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ing_step_block:
+                mCallback.onIngredientsSelected();
+        }
+    }
+
+    //this is to communicate to activity. Declaration here, initialization in onListItemClick()
     public interface OnStepClickListener {
         void onStepSelected(int position);
+        void onIngredientsSelected();
     }
 
     // Mandatory empty constructor
@@ -48,6 +59,10 @@ public class StepMasterListFragment extends Fragment implements StepAdapter.Step
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_steps_master_list, container, false);
+
+        TextView ing_block = (TextView) rootView.findViewById(R.id.ing_step_block);
+        ing_block.setOnClickListener(this);
+
 
         isTablet = getResources().getBoolean(R.bool.isTablet);
 
